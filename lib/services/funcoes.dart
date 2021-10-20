@@ -221,6 +221,7 @@ void updatetUserAvartar(File? thisImage, BuildContext context) async {
             .collection('Posts')
             .doc(element.id)
             .update({'avatar': url});
+        print(url);
       }
     },
   );
