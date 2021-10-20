@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "398506341123",
+    "project_id": "clube-do-desenho",
+    "storage_bucket": "clube-do-desenho.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398506341123:android:172d77063dee7a4bdfaf36",
+        "android_client_info": {
+          "package_name": "com.example.chat2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28A93MDZbXCylRcRdwiKm7EHwLUo_Fyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398506341123:android:5adfa15f71ef83eddfaf36",
+        "android_client_info": {
+          "package_name": "com.example.clube_do_desenho"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28A93MDZbXCylRcRdwiKm7EHwLUo_Fyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398506341123:android:b998b590385a33f7dfaf36",
+        "android_client_info": {
+          "package_name": "com.example.firestore_chat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28A93MDZbXCylRcRdwiKm7EHwLUo_Fyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398506341123:android:001f952847805a3adfaf36",
+        "android_client_info": {
+          "package_name": "com.example.teste_cludfirestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA28A93MDZbXCylRcRdwiKm7EHwLUo_Fyg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398506341123-j6egdugfg9mv8hsahftvap6ni6drtilc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
