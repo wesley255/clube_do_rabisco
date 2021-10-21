@@ -19,9 +19,13 @@ String data = '';
 String hora = '';
 Color appBackgroundcolor = Color(0xaa081720);
 //Visitante \/
-late String visitanteBackgraundPerfil;
+String visitanteBackgraundPerfil = '';
+late String visitantegmail;
 late String visitanteNome;
-late String visitanteglobalAvatar;
+late String visitanteAvatar;
+late int userKey;
+
+String visitantStory = '';
 
 //Visitante /\
 
@@ -32,17 +36,18 @@ FirebaseAuth auth = FirebaseAuth.instance;
 void getUser() async {
   var resultado = await FirebaseFirestore.instance
       .collection('Dados dos Usuarios')
-      .doc(auth.currentUser!.email.toString())
+      .where('gmail', isEqualTo: auth.currentUser!.email)
       .get()
       .whenComplete(() {
     changeUser.value = !changeUser.value;
   });
 
-  globalName = resultado.get('NomeDoUsuario');
-  globalAvatar = resultado.get('avatar');
+  globalName = resultado.docs[0]['user'];
+  globalAvatar = resultado.docs[0]['avatar'];
   globalGmail = auth.currentUser!.email.toString();
-  backgraundPerfil = resultado.get('back');
-  story = resultado.get('story');
+  backgraundPerfil = resultado.docs[0]['back'];
+  story = resultado.docs[0]['story'];
+  userKey = resultado.docs[0]['key'];
 }
 
 formatData() {
@@ -273,12 +278,10 @@ upadatePost(String legenda, File? image) async {
   await FirebaseFirestore.instance.collection('Posts').doc(id).set({
     'favoritos': [],
     'id': id,
-    'avatar': globalAvatar,
+    'userKey': userKey,
     'label': legenda,
     'hora': hora,
     'data': data,
-    'nome': globalName,
-    'gmail': globalGmail,
     'image': await uploadImage(image!, 'Posts', '${DateTime.now()}')
   });
 }

@@ -1,26 +1,34 @@
-// ignore_for_file: implementation_imports, unused_import
-
-import 'package:chat2/Pages/Editar_perfil.dart';
-import 'package:chat2/Pages/Pageview.dart';
-import 'package:chat2/services/auth_service.dart';
 import 'package:chat2/services/funcoes.dart';
 import 'package:chat2/services/streamFirebase.dart';
 import 'package:chat2/services/wigetsCustomizados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:provider/src/provider.dart';
 
-class Perfil extends StatefulWidget {
-  const Perfil({Key? key}) : super(key: key);
+class PerfiVisitante extends StatefulWidget {
+  const PerfiVisitante({Key? key}) : super(key: key);
 
   @override
-  _PerfilState createState() => _PerfilState();
+  _PerfiVisitanteState createState() => _PerfiVisitanteState();
 }
 
-class _PerfilState extends State<Perfil> {
+class _PerfiVisitanteState extends State<PerfiVisitante> {
+  void backgrand() async {
+    var resultado = await FirebaseFirestore.instance
+        .collection('Dados dos Usuarios')
+        .doc(visitantegmail)
+        .get();
+    setState(() {
+      print(visitantegmail);
+      print(resultado.get('gmail'));
+    });
+  }
+
   @override
+  void initState() {
+    super.initState();
+    backgrand();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +56,7 @@ class _PerfilState extends State<Perfil> {
                       child: CircleAvatar(
                         backgroundColor: Colors.white,
                         radius: heithPorcent(5, context),
-                        child: globalAvatar == ''
+                        child: visitanteAvatar == ''
                             ? CircleAvatar(
                                 radius: heithPorcent(4.7, context),
                                 backgroundImage:
@@ -56,7 +64,7 @@ class _PerfilState extends State<Perfil> {
                               )
                             : CircleAvatar(
                                 radius: heithPorcent(4.85, context),
-                                backgroundImage: NetworkImage(globalAvatar),
+                                backgroundImage: NetworkImage(visitanteAvatar),
                               ),
                       ),
                     ),
@@ -76,12 +84,12 @@ class _PerfilState extends State<Perfil> {
                           ),
                           children: [
                             TextSpan(
-                                text: "$globalName\n",
+                                text: "$visitanteNome\n",
                                 style: TextStyle(
                                   fontSize: widthPorcent(6, context),
                                 )),
                             TextSpan(
-                                text: "$globalGmail",
+                                text: "$visitantegmail",
                                 style: TextStyle(
                                     fontSize: widthPorcent(4, context),
                                     color: Color(0xffAEAEAE))),
@@ -125,9 +133,9 @@ class _PerfilState extends State<Perfil> {
                                     width: widthPorcent(50, context),
                                     child: H2(
                                         size: heithPorcent(2, context),
-                                        text: story.length > 100
-                                            ? '${story.substring(0, 100)}...'
-                                            : story),
+                                        text: visitantStory.length > 100
+                                            ? '${visitantStory.substring(0, 100)}...'
+                                            : visitantStory),
                                   ),
                                 ),
                               ),
@@ -160,30 +168,23 @@ class _PerfilState extends State<Perfil> {
                                 ])),
                                 //editperfil[\/]
                                 Custonbutton(
-                                  texto: Text(
-                                    'Editar Perfil',
-                                    style:
-                                        TextStyle(color: h2color, fontSize: 20),
-                                  ),
-                                  click: () {
-                                    Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditarPerfil()));
-                                  },
-                                ),
+                                    texto: Text(
+                                      'Seguidores',
+                                      style: TextStyle(
+                                          color: h2color, fontSize: 20),
+                                    ),
+                                    click: () {
+                                      backgrand();
+                                    }),
                                 //editperfil[/\]
                                 //sair[\/]
                                 Custonbutton(
-                                  width: widthPorcent(8.7, context),
-                                  color: Colors.redAccent,
-                                  texto: H2(
-                                    text: 'Sair',
-                                    size: widthPorcent(5, context),
-                                  ),
-                                  click: () =>
-                                      context.read<AuthServise>().logout(),
-                                ),
+                                    width: widthPorcent(6.0, context),
+                                    texto: H2(
+                                      text: 'Seguir',
+                                      size: widthPorcent(5, context),
+                                    ),
+                                    click: () => null),
                                 //sair[/\]
                               ],
                             ),
@@ -196,13 +197,13 @@ class _PerfilState extends State<Perfil> {
                 GaleriaGrid(
                   buttonText: 'Galeria',
                   context: context,
-                  stream: getMyPosts(),
+                  stream: getVisitantePosts(),
                   documentSnapshot: myposts,
                 ),
                 GaleriaGrid(
                   buttonText: 'Favoritos',
                   context: context,
-                  stream: getMyfavoritos(),
+                  stream: getVisitantefavoritos(),
                   documentSnapshot: myfavoritos,
                 ),
               ],
@@ -213,6 +214,3 @@ class _PerfilState extends State<Perfil> {
     );
   }
 }
-
-var isOpenGaleria = ValueNotifier(false);
-var isOpenFavorito = ValueNotifier(false);

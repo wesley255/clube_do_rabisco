@@ -15,10 +15,24 @@ Stream<QuerySnapshot> getMyPosts() {
       .snapshots();
 }
 
-Stream<QuerySnapshot> getfavoritos() {
+Stream<QuerySnapshot> getVisitantePosts() {
+  return FirebaseFirestore.instance
+      .collection('Posts')
+      .where('gmail', isEqualTo: visitantegmail)
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getMyfavoritos() {
   return FirebaseFirestore.instance
       .collection('Posts')
       .where('favoritos', arrayContains: auth.currentUser!.email.toString())
+      .snapshots();
+}
+
+Stream<QuerySnapshot> getVisitantefavoritos() {
+  return FirebaseFirestore.instance
+      .collection('Posts')
+      .where('favoritos', arrayContains: visitantegmail)
       .snapshots();
 }
 

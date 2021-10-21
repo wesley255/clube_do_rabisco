@@ -24,7 +24,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
     bool nickvalido = true;
     int index = 0;
     listaDeusuarios.docs.forEach((element) {
-      if (element['NomeDoUsuario'].toString().toUpperCase() ==
+      if (element['user'].toString().toUpperCase() ==
           newNick.toString().toUpperCase()) {
         nickvalido = false;
       } else {}

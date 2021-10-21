@@ -236,7 +236,7 @@ Color h2color = Color(0xffAEAEAE);
 
 class GaleriaGrid extends StatelessWidget {
   final BuildContext context;
-  final ValueNotifier change;
+
   final EdgeInsets? margem;
   final Function? onTap;
   final String? buttonText;
@@ -246,7 +246,6 @@ class GaleriaGrid extends StatelessWidget {
   List<DocumentSnapshot> documentSnapshot;
   GaleriaGrid(
       {required this.context,
-      required this.change,
       this.margem,
       this.buttonText,
       this.onTap,
@@ -255,6 +254,7 @@ class GaleriaGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext _context) {
+    var change = ValueNotifier<bool>(false);
     return ValueListenableBuilder(
       valueListenable: change,
       builder: (_context, _value, _child) {

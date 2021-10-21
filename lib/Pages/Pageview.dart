@@ -17,6 +17,7 @@ class _PagesState extends State<Pages> {
   @override
   void initState() {
     super.initState();
+    getlistadeusuarios();
     getUser();
     visivel = false;
     h();

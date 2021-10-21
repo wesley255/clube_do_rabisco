@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_statements, unused_local_variable
 import 'dart:io';
 import 'package:chat2/Pages/Pageview.dart';
+import 'package:chat2/Pages/VisitarPerfil.dart';
 import 'package:chat2/services/funcoes.dart';
 import 'package:chat2/services/streamFirebase.dart';
 import 'package:chat2/services/wigetsCustomizados.dart';
@@ -16,10 +17,6 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,46 +130,62 @@ class _HomeState extends State<Home> {
                             return CircularProgressIndicator();
                           default:
                             posts = snapshot.data!.docs;
-                            return ListView.builder(
-                              itemCount: posts.length,
-                              itemBuilder: (_, index) {
-                                return Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 2),
-                                  child: Column(
-                                    children: [
-                                      CardPostHome(
-                                        like: snapshot
-                                            .data!.docs[index]['favoritos']
-                                            .toString(),
-                                        favorito: () {
-                                          if (snapshot
-                                              .data!.docs[index]['favoritos']
-                                              .toString()
-                                              .contains(globalGmail)) {
-                                            desfavoritar(snapshot
-                                                .data!.docs[index]['id']);
-                                          } else {
-                                            favorito(snapshot.data!.docs[index]
-                                                ['id']);
-                                          }
-                                        },
-                                        image: snapshot.data!.docs[index]
-                                            ['image'],
-                                        avatar: snapshot.data!.docs[index]
-                                            ['avatar'],
-                                        data: snapshot.data!.docs[index]
-                                            ['data'],
-                                        title: snapshot.data!.docs[index]
-                                            ['nome'],
-                                        subTitle: snapshot.data!.docs[index]
-                                            ['gmail'],
-                                        desafil: 'Cenarios',
-                                        label: snapshot.data!.docs[index]
-                                            ['label'],
-                                      ),
-                                    ],
-                                  ),
-                                );
+                            //
+                            return StreamBuilder<QuerySnapshot>(
+                              stream: getlistUser(),
+                              builder: (_, user) {
+                                switch (user.connectionState) {
+                                  case ConnectionState.none:
+                                  case ConnectionState.waiting:
+                                    return CircularProgressIndicator();
+                                  default:
+                                    listUser = user.data!.docs;
+                                    return ListView.builder(
+                                      itemCount: posts.length,
+                                      itemBuilder: (_, index) {
+                                        return Padding(
+                                          padding:
+                                              EdgeInsets.symmetric(vertical: 2),
+                                          child: Column(
+                                            children: [
+                                              CardPostHome(
+                                                like: snapshot.data!
+                                                    .docs[index]['favoritos']
+                                                    .toString(),
+                                                favorito: () {
+                                                  if (snapshot.data!
+                                                      .docs[index]['favoritos']
+                                                      .toString()
+                                                      .contains(globalGmail)) {
+                                                    desfavoritar(snapshot.data!
+                                                        .docs[index]['id']);
+                                                  } else {
+                                                    favorito(snapshot.data!
+                                                        .docs[index]['id']);
+                                                  }
+                                                },
+                                                image: snapshot
+                                                    .data!.docs[index]['image'],
+                                                avatar: user.data!.docs[
+                                                    snapshot.data!.docs[index]
+                                                        ['userKey']]['avatar'],
+                                                data: '',
+                                                title: user.data!.docs[
+                                                    snapshot.data!.docs[index]
+                                                        ['userKey']]['user'],
+                                                subTitle: user.data!.docs[
+                                                    snapshot.data!.docs[index]
+                                                        ['userKey']]['gmail'],
+                                                desafil: 'Cenarios',
+                                                label: snapshot
+                                                    .data!.docs[index]['label'],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                }
                               },
                             );
                         }
@@ -299,28 +312,42 @@ class Cabesario extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: EdgeInsets.only(right: 5),
-              child: CircleAvatar(
-                backgroundColor: Colors.white,
-                radius: widthPorcent(6, context),
-                child: avatar == ''
-                    ? CircleAvatar(
-                        backgroundImage: AssetImage('imagems/avatar2.png'),
-                        radius: widthPorcent(5.9, context),
-                      )
-                    : subTitle != globalGmail
-                        ? CircleAvatar(
-                            backgroundImage: NetworkImage(avatar),
-                            radius: widthPorcent(5.9, context),
-                          )
-                        : ValueListenableBuilder(
-                            valueListenable: changeUser,
-                            builder: (_, a, b) {
-                              return CircleAvatar(
-                                  backgroundImage: NetworkImage(globalAvatar),
-                                  radius: widthPorcent(5.9, context));
-                            }),
+            GestureDetector(
+              onTap: () {
+                if (subTitle != globalGmail) {
+                  print('object');
+                  visitanteNome = title;
+                  visitantegmail = subTitle;
+                  visitanteAvatar = avatar;
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PerfiVisitante()));
+                }
+              },
+              child: Padding(
+                padding: EdgeInsets.only(right: 5),
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: widthPorcent(6, context),
+                  child: avatar == ''
+                      ? CircleAvatar(
+                          backgroundImage: AssetImage('imagems/avatar2.png'),
+                          radius: widthPorcent(5.9, context),
+                        )
+                      : subTitle != globalGmail
+                          ? CircleAvatar(
+                              backgroundImage: NetworkImage(avatar),
+                              radius: widthPorcent(5.9, context),
+                            )
+                          : ValueListenableBuilder(
+                              valueListenable: changeUser,
+                              builder: (_, a, b) {
+                                return CircleAvatar(
+                                    backgroundImage: NetworkImage(globalAvatar),
+                                    radius: widthPorcent(5.9, context));
+                              }),
+                ),
               ),
             ),
             Expanded(

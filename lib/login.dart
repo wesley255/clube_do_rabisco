@@ -1,5 +1,6 @@
 // ignore_for_file: implementation_imports, non_constant_identifier_names, unused_element
 
+import 'package:chat2/services/streamFirebase.dart';
 import 'package:chat2/services/wigetsCustomizados.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:provider/src/provider.dart';
@@ -48,14 +49,14 @@ class _LoginState extends State<Login> {
   _saveUser() {
     FirebaseFirestore.instance
         .collection('Dados dos Usuarios')
-        .doc(_controllerGmail.text)
+        .doc(criateID())
         .set({
-      'NomeDoUsuario': _controllerApelido.text,
       'avatar': '',
       'back': '',
       'story': '',
       'gmail': _controllerGmail.text,
-      'user': _controllerApelido.text
+      'user': _controllerApelido.text,
+      'key': listaDeusuarios.docs.length
     });
   }
 
@@ -88,7 +89,7 @@ class _LoginState extends State<Login> {
       _saveUser();
     }
     listaDeusuarios.docs.forEach((element) {
-      if (element['NomeDoUsuario'].toString().toUpperCase() ==
+      if (element['user'].toString().toUpperCase() ==
           _controllerApelido.text.toUpperCase()) {
         nickvalido = false;
       } else {}
