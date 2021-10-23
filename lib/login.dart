@@ -47,10 +47,9 @@ class _LoginState extends State<Login> {
   }
 
   _saveUser() {
-    FirebaseFirestore.instance
-        .collection('Dados dos Usuarios')
-        .doc(criateID())
-        .set({
+    final id = criateID();
+    FirebaseFirestore.instance.collection('Dados dos Usuarios').doc(id).set({
+      'id': id,
       'avatar': '',
       'back': '',
       'story': '',
@@ -164,20 +163,12 @@ class _LoginState extends State<Login> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Center(
-                        child: Image.asset(
-                          'imagems/logo.png',
-                          scale: widthPorcent(0.8, context),
-                        ),
-                      ),
-                      Center(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: heithPorcent(2, context)),
-                          child: Text(
-                            'Clube do Rabisco',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: widthPorcent(7, context)),
+                        child: Container(
+                          width: widthPorcent(70, context),
+                          margin:
+                              EdgeInsets.only(bottom: heithPorcent(4, context)),
+                          child: Image.asset(
+                            'imagems/logo.png',
                           ),
                         ),
                       ),

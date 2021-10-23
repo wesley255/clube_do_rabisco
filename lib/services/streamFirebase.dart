@@ -11,7 +11,7 @@ Stream<QuerySnapshot> getPosts() {
 Stream<QuerySnapshot> getMyPosts() {
   return FirebaseFirestore.instance
       .collection('Posts')
-      .where('gmail', isEqualTo: globalGmail)
+      .where('userKey', isEqualTo: userKey)
       .snapshots();
 }
 
@@ -42,6 +42,16 @@ Stream<QuerySnapshot> getlistUser() {
       .snapshots();
 }
 
+Stream<QuerySnapshot> getComentarios() {
+  return FirebaseFirestore.instance
+      .collection('Posts')
+      .doc(Idcomentario!)
+      .collection('comentarios')
+      .snapshots();
+}
+
+String? Idcomentario;
+List<DocumentSnapshot> listComentarios = [];
 List<DocumentSnapshot> listUser = [];
 List<DocumentSnapshot> myfavoritos = [];
 List<DocumentSnapshot> posts = [];

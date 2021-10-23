@@ -23,13 +23,13 @@ class _EditarPerfilState extends State<EditarPerfil> {
     }
     bool nickvalido = true;
     int index = 0;
-    listaDeusuarios.docs.forEach((element) {
+    listUser.forEach((element) {
       if (element['user'].toString().toUpperCase() ==
           newNick.toString().toUpperCase()) {
         nickvalido = false;
-      } else {}
+      }
       index++;
-      if (index == listaDeusuarios.docs.length) {
+      if (index == listUser.length) {
         if (nickvalido) {
           loaduser.value = true;
           updatetUserNick(_NickController.text, context);

@@ -3,7 +3,9 @@
 import 'package:chat2/Pages/Home.dart';
 import 'package:chat2/Pages/Last.dart';
 import 'package:chat2/Pages/Perfil.dart';
+import 'package:chat2/Pages/SubPages/Comentarios.dart';
 import 'package:chat2/services/funcoes.dart';
+import 'package:chat2/services/streamFirebase.dart';
 import 'package:flutter/material.dart';
 
 PageController page = PageController(initialPage: 1);
@@ -207,7 +209,7 @@ class Load extends StatelessWidget {
                           EdgeInsets.only(bottom: heithPorcent(25, context)),
                       child: Center(
                         child: SizedBox(
-                            height: heithPorcent(20, context),
+                            width: widthPorcent(70, context),
                             child: Image.asset('imagems/logo.png')),
                       ),
                     ),

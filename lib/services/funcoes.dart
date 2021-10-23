@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:chat2/Pages/Editar_perfil.dart';
+import 'package:chat2/Pages/SubPages/Editar_perfil.dart';
 import 'package:chat2/services/streamFirebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +24,7 @@ late String visitantegmail;
 late String visitanteNome;
 late String visitanteAvatar;
 late int userKey;
+late String userid;
 
 String visitantStory = '';
 
@@ -48,6 +49,7 @@ void getUser() async {
   backgraundPerfil = resultado.docs[0]['back'];
   story = resultado.docs[0]['story'];
   userKey = resultado.docs[0]['key'];
+  userid = resultado.docs[0]['id'];
 }
 
 formatData() {
@@ -209,7 +211,7 @@ void updatetUserAvartar(File? thisImage, BuildContext context) async {
   String url = await uploadImage(thisImage!, globalGmail, 'avatar');
   FirebaseFirestore.instance
       .collection('Dados dos Usuarios')
-      .doc(auth.currentUser!.email.toString())
+      .doc(userid)
       .update({
     'avatar': url,
   }).whenComplete(
@@ -219,56 +221,29 @@ void updatetUserAvartar(File? thisImage, BuildContext context) async {
       changeUser.value = !changeUser.value;
     },
   );
-  posts.forEach(
-    (element) {
-      if (element['gmail'] == globalGmail && element['avatar'] != '') {
-        FirebaseFirestore.instance
-            .collection('Posts')
-            .doc(element.id)
-            .update({'avatar': url});
-        print(url);
-      }
-    },
-  );
 }
 
 void updatetUserNick(String thisnome, BuildContext context) async {
-  if (thisnome != globalName) {
-    FirebaseFirestore.instance
-        .collection('Dados dos Usuarios')
-        .doc(auth.currentUser!.email.toString())
-        .update({'NomeDoUsuario': thisnome}).whenComplete(() async {
-      getUser();
-      loaduser.value = false;
-      changeUser.value = !changeUser.value;
-    }).whenComplete(() {
-      posts.forEach((element) {
-        if (element['gmail'] == globalGmail) {
-          FirebaseFirestore.instance
-              .collection('Posts')
-              .doc(element.id)
-              .update({'nome': thisnome});
-        }
-      });
-    });
-  }
+  FirebaseFirestore.instance
+      .collection('Dados dos Usuarios')
+      .doc('$userid')
+      .update({'user': thisnome}).whenComplete(() {
+    getUser();
+    loaduser.value = false;
+    changeUser.value = !changeUser.value;
+  });
 }
 
-void updatetUserStory(
-  String thisStory,
-  BuildContext context,
-) async {
-  if (thisStory != story) {
-    FirebaseFirestore.instance
-        .collection('Dados dos Usuarios')
-        .doc(auth.currentUser!.email.toString())
-        .update({'story': thisStory}).whenComplete(() async {
-      getUser();
-      print(thisStory);
-      loaduser.value = false;
-      changeUser.value = !changeUser.value;
-    });
-  }
+void updatetUserStory(String thisStory, BuildContext context) async {
+  FirebaseFirestore.instance
+      .collection('Dados dos Usuarios')
+      .doc(userid)
+      .update({'story': thisStory}).whenComplete(() async {
+    getUser();
+    print(thisStory);
+    loaduser.value = false;
+    changeUser.value = !changeUser.value;
+  });
 }
 
 upadatePost(String legenda, File? image) async {

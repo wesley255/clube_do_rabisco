@@ -1,6 +1,6 @@
 // ignore_for_file: implementation_imports, unused_import
 
-import 'package:chat2/Pages/Editar_perfil.dart';
+import 'package:chat2/Pages/SubPages/Editar_perfil.dart';
 import 'package:chat2/Pages/Pageview.dart';
 import 'package:chat2/services/auth_service.dart';
 import 'package:chat2/services/funcoes.dart';
