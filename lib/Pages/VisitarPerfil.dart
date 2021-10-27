@@ -15,11 +15,10 @@ class _PerfiVisitanteState extends State<PerfiVisitante> {
   void backgrand() async {
     var resultado = await FirebaseFirestore.instance
         .collection('Dados dos Usuarios')
-        .doc(visitantegmail)
+        .where('gmail', isEqualTo: visitantegmail)
         .get();
     setState(() {
-      print(visitantegmail);
-      print(resultado.get('gmail'));
+      print(resultado.docs[0]['id']);
     });
   }
 

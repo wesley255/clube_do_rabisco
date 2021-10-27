@@ -16,212 +16,203 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-Future<bool> cheackM() async {
-  if (coment.value) {
-    Idcomentario = null;
-    return coment.value = false;
-  } else {
-    Idcomentario = null;
-    return coment.value = false;
-  }
-}
-
 class _HomeState extends State<Home> {
   @override
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: cheackM,
-      child: Scaffold(
-        backgroundColor: Color(0xFF041015),
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Center(
-                child: GestureDetector(
-                  onTap: () =>
-                      FocusScope.of(context).requestFocus(new FocusNode()),
-                  child: Container(
-                    margin: EdgeInsetsDirectional.only(top: 10),
-                    width: widthPorcent(95, context),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                page.animateToPage(
-                                  2,
-                                  duration: const Duration(milliseconds: 200),
-                                  curve: Curves.easeInOut,
-                                );
-                              },
-                              child: ValueListenableBuilder(
-                                  valueListenable: changeUser,
-                                  builder: (_, a, b) {
-                                    return globalAvatar == ''
-                                        ? CircleAvatar(
-                                            backgroundColor: Colors.white,
-                                          )
-                                        : CircleAvatar(
-                                            backgroundImage:
-                                                NetworkImage(globalAvatar),
-                                            radius: heithPorcent(2.7, context),
-                                          );
-                                  }),
-                            ),
-                            CaixaDeTexto(
-                              controller: _labelPost,
-                              iconClick: () async {
-                                _imageHome = await getImage();
-                                if (_imageHome != null) {
-                                  cardHomeVisivel = true;
-                                }
-                                cardHome.value = !cardHome.value;
-                              },
-                              borderLaft: 15,
-                              borderRiad: 15,
-                              borderTopRiad: 15,
-                              heith: 15,
-                              label: 'postar novo Desenho..',
-                              width: widthPorcent(80, context),
-                              muiltline: true,
-                              icon: Padding(
-                                padding: EdgeInsets.only(top: 3, right: 5),
-                                child: Icon(
-                                  Icons.photo,
-                                  color: Colors.lightBlue,
-                                  size: 30,
-                                ),
+    return Scaffold(
+      backgroundColor: Color(0xFF041015),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Center(
+              child: GestureDetector(
+                onTap: () =>
+                    FocusScope.of(context).requestFocus(new FocusNode()),
+                child: Container(
+                  margin: EdgeInsetsDirectional.only(top: 10),
+                  width: widthPorcent(95, context),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              page.animateToPage(
+                                2,
+                                duration: const Duration(milliseconds: 200),
+                                curve: Curves.easeInOut,
+                              );
+                            },
+                            child: ValueListenableBuilder(
+                                valueListenable: changeUser,
+                                builder: (_, a, b) {
+                                  return globalAvatar == ''
+                                      ? CircleAvatar(
+                                          backgroundColor: Colors.white,
+                                        )
+                                      : CircleAvatar(
+                                          backgroundImage:
+                                              NetworkImage(globalAvatar),
+                                          radius: heithPorcent(2.7, context),
+                                        );
+                                }),
+                          ),
+                          CaixaDeTexto(
+                            controller: _labelPost,
+                            iconClick: () async {
+                              _imageHome = await getImage();
+                              if (_imageHome != null) {
+                                cardHomeVisivel = true;
+                              }
+                              cardHome.value = !cardHome.value;
+                            },
+                            borderLaft: 15,
+                            borderRiad: 15,
+                            borderTopRiad: 15,
+                            heith: 15,
+                            label: 'postar novo Desenho..',
+                            width: widthPorcent(80, context),
+                            muiltline: true,
+                            icon: Padding(
+                              padding: EdgeInsets.only(top: 3, right: 5),
+                              child: Icon(
+                                Icons.photo,
+                                color: Colors.lightBlue,
+                                size: 30,
                               ),
                             ),
-                          ],
-                        ),
-                        ValueListenableBuilder(
-                            valueListenable: cardHome,
-                            builder: (_, a, b) {
-                              return AnimatedContainer(
-                                  duration: Duration(microseconds: 200),
-                                  width: double.infinity,
-                                  child: cardHomeVisivel
-                                      ? Column(
-                                          children: [
-                                            Container(
-                                              constraints: BoxConstraints(
-                                                maxHeight:
-                                                    heithPorcent(30, context),
-                                              ),
-                                              child: Image.file(_imageHome!),
-                                            ),
-                                            cardHomeLoad
-                                                ? Container(
-                                                    margin:
-                                                        EdgeInsets.only(top: 5),
-                                                    height: heithPorcent(
-                                                        3, context),
-                                                    width: heithPorcent(
-                                                        3, context),
-                                                    child:
-                                                        CircularProgressIndicator())
-                                                : Custonbutton(
-                                                    texto: H2(text: 'Postar'),
-                                                    click: () async {
-                                                      cardHomeLoad = true;
-                                                      cardHome.value =
-                                                          !cardHome.value;
-
-                                                      await upadatePost(
-                                                          _labelPost.text,
-                                                          _imageHome);
-                                                      cardHomeVisivel = false;
-                                                      cardHomeLoad = false;
-                                                      _imageHome = null;
-                                                      _labelPost.text = '';
-                                                      cardHome.value =
-                                                          !cardHome.value;
-                                                    })
-                                          ],
-                                        )
-                                      : SizedBox());
-                            }),
-                        Expanded(
-                          child: Container(
-                            child: StreamBuilder<QuerySnapshot>(
-                              stream: getPosts(),
-                              builder: (_, snapshot) {
-                                switch (snapshot.connectionState) {
-                                  case ConnectionState.none:
-                                  case ConnectionState.waiting:
-                                    return CircularProgressIndicator();
-                                  default:
-                                    posts = snapshot.data!.docs;
-                                    return ListView.builder(
-                                      itemCount: posts.length,
-                                      itemBuilder: (_, index) {
-                                        return Padding(
-                                          padding:
-                                              EdgeInsets.symmetric(vertical: 2),
-                                          child: Column(
-                                            children: [
-                                              CardPostHome(
-                                                mensage: () {
-                                                  Idcomentario = snapshot
-                                                      .data!.docs[index]['id'];
-                                                  coment.value = true;
-                                                },
-                                                keypost: snapshot.data!
-                                                    .docs[index]['userKey'],
-                                                like: snapshot.data!
-                                                    .docs[index]['favoritos']
-                                                    .toString(),
-                                                favorito: () {
-                                                  if (snapshot.data!
-                                                      .docs[index]['favoritos']
-                                                      .toString()
-                                                      .contains(globalGmail)) {
-                                                    desfavoritar(snapshot.data!
-                                                        .docs[index]['id']);
-                                                  } else {
-                                                    favorito(snapshot.data!
-                                                        .docs[index]['id']);
-                                                  }
-                                                },
-                                                image: snapshot
-                                                    .data!.docs[index]['image'],
-                                                avatar: '',
-                                                data: '',
-                                                title: '',
-                                                subTitle: '',
-                                                desafil: 'Cenarios',
-                                                label: snapshot
-                                                    .data!.docs[index]['label'],
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    );
-                                }
-                              },
-                            ),
                           ),
-                        )
-                      ],
-                    ),
+                        ],
+                      ),
+                      ValueListenableBuilder(
+                          valueListenable: cardHome,
+                          builder: (_, a, b) {
+                            return AnimatedContainer(
+                                duration: Duration(microseconds: 200),
+                                width: double.infinity,
+                                child: cardHomeVisivel
+                                    ? Column(
+                                        children: [
+                                          Container(
+                                            constraints: BoxConstraints(
+                                              maxHeight:
+                                                  heithPorcent(30, context),
+                                            ),
+                                            child: Image.file(_imageHome!),
+                                          ),
+                                          cardHomeLoad
+                                              ? Container(
+                                                  margin:
+                                                      EdgeInsets.only(top: 5),
+                                                  height:
+                                                      heithPorcent(3, context),
+                                                  width:
+                                                      heithPorcent(3, context),
+                                                  child:
+                                                      CircularProgressIndicator())
+                                              : Custonbutton(
+                                                  texto: H2(text: 'Postar'),
+                                                  click: () async {
+                                                    cardHomeLoad = true;
+                                                    cardHome.value =
+                                                        !cardHome.value;
+
+                                                    await upadatePost(
+                                                        _labelPost.text,
+                                                        _imageHome);
+                                                    cardHomeVisivel = false;
+                                                    cardHomeLoad = false;
+                                                    _imageHome = null;
+                                                    _labelPost.text = '';
+                                                    cardHome.value =
+                                                        !cardHome.value;
+                                                  })
+                                        ],
+                                      )
+                                    : SizedBox());
+                          }),
+                      Expanded(
+                        child: Container(
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: getPosts(),
+                            builder: (_, snapshot) {
+                              switch (snapshot.connectionState) {
+                                case ConnectionState.none:
+                                case ConnectionState.waiting:
+                                  return Container(
+                                    constraints: BoxConstraints(
+                                        minHeight: heithPorcent(100, context)),
+                                    child: CircularProgressIndicator(),
+                                  );
+                                default:
+                                  posts = snapshot.data!.docs;
+                                  return ListView.builder(
+                                    itemCount: posts.length,
+                                    itemBuilder: (_, index) {
+                                      return Padding(
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 2),
+                                        child: Column(
+                                          children: [
+                                            CardPostHome(
+                                              mensage: () {
+                                                Idcomentario = snapshot
+                                                    .data!.docs[index]['id'];
+                                                coment.value = true;
+                                              },
+                                              keypost: snapshot
+                                                  .data!.docs[index]['userKey'],
+                                              like: snapshot.data!
+                                                  .docs[index]['favoritos']
+                                                  .toString(),
+                                              favorito: () {
+                                                if (snapshot.data!
+                                                    .docs[index]['favoritos']
+                                                    .toString()
+                                                    .contains(globalGmail)) {
+                                                  desfavoritar(snapshot
+                                                      .data!.docs[index]['id']);
+                                                } else {
+                                                  favorito(snapshot
+                                                      .data!.docs[index]['id']);
+                                                }
+                                              },
+                                              image: snapshot.data!.docs[index]
+                                                  ['image'],
+                                              avatar: '',
+                                              data: '',
+                                              title: '',
+                                              subTitle: '',
+                                              desafil: 'Cenarios',
+                                              label: snapshot.data!.docs[index]
+                                                  ['label'],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                              }
+                            },
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-              ValueListenableBuilder(
-                  valueListenable: coment,
-                  builder: (_, a, b) {
-                    return AnimatedPositioned(
-                      bottom: coment.value ? 0 : -heithPorcent(100, context),
-                      duration: Duration(milliseconds: 100),
-                      child: Idcomentario != null ? Comentarios() : Container(),
-                    );
-                  }),
-            ],
-          ),
+            ),
+            ValueListenableBuilder(
+                valueListenable: coment,
+                builder: (_, a, b) {
+                  return AnimatedPositioned(
+                    bottom: coment.value ? 0 : -heithPorcent(100, context),
+                    duration: Duration(milliseconds: 100),
+                    child: Idcomentario != null ? Comentarios() : Container(),
+                  );
+                }),
+          ],
         ),
       ),
     );
@@ -365,10 +356,12 @@ class _CabesarioState extends State<Cabesario> {
                       GestureDetector(
                         onTap: () {
                           if (widget.subTitle != globalGmail) {
-                            print('object');
-                            visitanteNome = widget.title;
-                            visitantegmail = widget.subTitle;
-                            visitanteAvatar = widget.avatar;
+                            visitanteNome =
+                                user.data!.docs[widget.postey]['user'];
+                            visitantegmail =
+                                user.data!.docs[widget.postey]['gmail'];
+                            visitanteAvatar =
+                                user.data!.docs[widget.postey]['avatar'];
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(

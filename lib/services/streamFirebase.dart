@@ -50,7 +50,12 @@ Stream<QuerySnapshot> getComentarios() {
       .snapshots();
 }
 
+Stream<QuerySnapshot> getDesafios() {
+  return FirebaseFirestore.instance.collection('desafios').snapshots();
+}
+
 String? Idcomentario;
+List<DocumentSnapshot> listDesafils = [];
 List<DocumentSnapshot> listComentarios = [];
 List<DocumentSnapshot> listUser = [];
 List<DocumentSnapshot> myfavoritos = [];

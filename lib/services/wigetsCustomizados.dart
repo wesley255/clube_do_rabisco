@@ -28,6 +28,7 @@ class CaixaDeTexto extends StatelessWidget {
   final double? borderTopRiad;
   final double? borderall;
   final double? heith;
+  final bool? textCenter;
 
   const CaixaDeTexto({
     this.controller,
@@ -50,6 +51,7 @@ class CaixaDeTexto extends StatelessWidget {
     this.borderTopRiad,
     this.borderall,
     this.heith,
+    this.textCenter,
   });
 
   @override
@@ -97,6 +99,7 @@ class CaixaDeTexto extends StatelessWidget {
                 },
                 keyboardType: keyboardType,
                 controller: controller,
+
                 //funcoes/\
                 //style input \/
                 decoration: InputDecoration(
@@ -286,7 +289,7 @@ class GaleriaGrid extends StatelessWidget {
                   : SizedBox(),
               //button/\
               ClipRRect(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(0),
                 child: Container(
                   padding: EdgeInsets.all(heithPorcent(1, context)),
                   width: widthPorcent(100, context),
